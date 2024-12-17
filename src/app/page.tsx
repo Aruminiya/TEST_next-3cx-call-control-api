@@ -1,19 +1,20 @@
 'use client'
 
+import { Provider } from 'react-redux';
+import store from '../../store/index';
 import MakeCall from "../../components/MakeCall";
 import SendAudioStream from "../../components/SendAudioStream";
 // import WssConnect from "../../components/WssConnect";
-
-export default function Home() {
-
+import MainInputData from "../../components/MainInputData";
+export default function App() {
   return (
-    <>
-      <h1>Sip with 3cx</h1>
+    <Provider store={store}>
+      <MainInputData />
       <MakeCall />
       <hr />
       <SendAudioStream />
       {/* TODO: 連接 WebSocket */}
       {/* <WssConnect /> */}
-    </>
+    </Provider>
   );
 }

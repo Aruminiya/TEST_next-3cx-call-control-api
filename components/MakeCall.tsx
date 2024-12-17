@@ -1,45 +1,24 @@
 'use client'
 
+import { useSelector } from "react-redux";
 import { makeCall } from "../lib/api";
-import { useState } from "react";
+import { RootState } from "../store";
 
-type Payload = {
-  dnnumber: string;
-  destination: string;
-}
 
 function MakeCall() {
-  const [payload, setPayload] = useState<Payload>({
-    dnnumber: 'leo',
-    destination: '28',
-  });
-
-  const [participantId, setParticipantId] = useState<string | null>(null);
+  const mainState = useSelector((state: RootState) => state.main);
 
   const handleMakeCall = async () => {
-    const response = await makeCall(payload.dnnumber, payload.destination);
+    if (!mainState.dnnumber || !mainState.id)  throw new Error('Dnnumber or id is not set');
+    const response = await makeCall(mainState.dnnumber, mainState.id);
     console.log(response);
-    setParticipantId(response.result.id);
   };
 
   return (
     <>
       <h2>Make Call</h2>
       <p>撥打電話</p>
-      <input 
-        type="text" 
-        placeholder="Dnnumber" 
-        value={payload.dnnumber} 
-        onChange={(e) => setPayload({ ...payload, dnnumber: e.target.value })} 
-      />
-      <input 
-        type="text" 
-        placeholder="Destination" 
-        value={payload.destination} 
-        onChange={(e) => setPayload({ ...payload, destination: e.target.value })} 
-      />
       <button onClick={handleMakeCall}>Make Call</button>
-      {participantId && <p>Participant ID: {participantId}</p>}
     </>
   );
 }
