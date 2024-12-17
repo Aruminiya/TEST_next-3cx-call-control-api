@@ -22,6 +22,8 @@ export default function MainInputData() {
         value={mainState.id || ''} 
         onChange={(e) => dispatch(mainActions.setId(e.target.value))} 
       />
+      <br/>
+      <p>ParticipantId: {mainState.participantId}</p>
     </div>
   );
 }

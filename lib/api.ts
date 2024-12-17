@@ -17,7 +17,7 @@ export const makeCall = async (dnnumber: string, destination: string) => {
 
     if (response.ok) {
       const data = await response.json();
-      console.log('Call initiated:', data);
+      // console.log('Call initiated:', data);
       // data.result.id 就是 participantId
       return data;
     } else {
@@ -31,21 +31,23 @@ export const makeCall = async (dnnumber: string, destination: string) => {
 
 export const sendAudioStream = async (dnnumber: string, participantId: string, audioBlob: Blob) => {
   try {
+    
+    const myHeaders = new Headers();
+    myHeaders.append("Content-Type", "application/octet-stream");
+    myHeaders.append("Authorization", `Bearer ${process.env.VITE_3CX_TOKEN}`);
 
     console.log('Sending audio stream:', audioBlob);
     const response = await fetch(`${process.env.VITE_3CX_HOST}/callcontrol/${dnnumber}/participants/${participantId}/stream`, {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'audio/pcm',
-        'Authorization': `Bearer ${process.env.VITE_3CX_TOKEN}`
-      },
-      body: audioBlob
+      method: "POST",
+      headers: myHeaders,
+      body: audioBlob,
+      redirect: "follow"
     });
 
     if (response.ok) {
       console.log('Audio stream sent successfully');
     } else {
-      console.error('Failed to send audio stream:', response.statusText);
+      console.error('Failed to send audio stream:', response);
     }
   } catch (error) {
     console.error('Error:', error);

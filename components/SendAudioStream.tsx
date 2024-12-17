@@ -2,34 +2,17 @@
 
 import { useState } from 'react';
 import { sendAudioStream } from '../lib/api';
-
-type Payload = {
-  dnnumber: string;
-  destination: string;
-}
+import { useSelector } from 'react-redux';
+import { RootState } from '../store';
 
 function SendAudioStream() {
-  const [payload, setPayload] = useState<Payload>({
-    dnnumber: 'leo',
-    destination: '',
-  });
+  const mainState = useSelector((state: RootState) => state.main);
   const [audioFile, setAudioFile] = useState<File | null>(null);
 
   const handleSendAudioStream = () => {
-    if (!audioFile) {
-      console.error('No audio file selected');
-      return;
-    }
-
-    const reader = new FileReader();
-    reader.onload = (e) => {
-      const audioData = e.target?.result;
-      console.log('Audio Data:', audioData);
-    };
-    reader.readAsArrayBuffer(audioFile);
-    console.log(audioFile);
-
-    sendAudioStream(payload.dnnumber, payload.destination, audioFile);
+    if (!audioFile) throw new Error('No audio file selected');
+    if (!mainState.dnnumber || !mainState.participantId) throw new Error('Dnnumber or participantId is not set');
+    sendAudioStream(mainState.dnnumber, mainState.participantId, audioFile)
   };
 
   return (
@@ -40,8 +23,6 @@ function SendAudioStream() {
       <br />
       <input type="file" id="audioFile" placeholder="PCB Audio File" onChange={(e) => setAudioFile(e.target.files?.[0] || null)} />
       <br />
-      <input type="text" id="dnnumber" placeholder="Dnnumber" value={payload.dnnumber} onChange={(e) => setPayload({ ...payload, dnnumber: e.target.value })} />
-      <input type="text" id="destination" placeholder="Destination" value={payload.destination} onChange={(e) => setPayload({ ...payload, destination: e.target.value })} />
       <button onClick={handleSendAudioStream}>Send Audio Stream</button>
     </>
   );
