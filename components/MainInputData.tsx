@@ -22,8 +22,15 @@ export default function MainInputData() {
         value={mainState.id || ''} 
         onChange={(e) => dispatch(mainActions.setId(e.target.value))} 
       />
+      <input 
+        type="text" 
+        placeholder="DeviceId" 
+        value={mainState.deviceId || ''} 
+        onChange={(e) => dispatch(mainActions.setDeviceId(e.target.value))} 
+      />
       <br/>
       <p>ParticipantId: {mainState.participantId}</p>
+      <p>DeviceId: {mainState.deviceId}</p>
     </div>
   );
 }

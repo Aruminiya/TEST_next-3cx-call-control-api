@@ -3,7 +3,7 @@ import { MainState } from '../../types';
 
 const mainSlice = createSlice({
   name: 'main',
-  initialState: { dnnumber: null, id: null, participantId: null } as MainState,
+  initialState: { dnnumber: null, id: null, participantId: null, deviceId: null } as MainState,
   reducers: {
     setDnnumber(state, action) {
       state.dnnumber = action.payload;
@@ -13,6 +13,9 @@ const mainSlice = createSlice({
     },
     setParticipantId(state, action) {
       state.participantId = action.payload;
+    },
+    setDeviceId(state, action) {
+      state.deviceId = action.payload;
     },
   },
 });

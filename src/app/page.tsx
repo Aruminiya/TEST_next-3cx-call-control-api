@@ -6,11 +6,17 @@ import MakeCall from "../../components/MakeCall";
 import SendAudioStream from "../../components/SendAudioStream";
 // import WssConnect from "../../components/WssConnect";
 import MainInputData from "../../components/MainInputData";
+import MakeCallWithSip from '../../components/MakeCallWithSip';
+import MakeCallWithDeviceId from '../../components/MakeCallWithDeviceId';
 export default function App() {
   return (
     <Provider store={store}>
       <MainInputData />
       <MakeCall />
+      <hr />
+      <MakeCallWithDeviceId />
+      <hr />
+      <MakeCallWithSip />
       <hr />
       <SendAudioStream />
       {/* TODO: 連接 WebSocket */}
