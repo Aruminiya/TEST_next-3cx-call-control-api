@@ -2,13 +2,13 @@
 
 function createWss() {
   // 建立 WebSocket 連接
-  const socket = new WebSocket(`${process.env.VITE_3CX_WS_URL}/callcontrol/ws`);
+  const socket = new WebSocket(`${process.env.NEXT_3CX_WS_URL}/callcontrol/ws`);
 
   socket.onopen = (res) => {
     console.log('WebSocket connection established', res);
     socket.send(JSON.stringify({
       type: 'authorization',
-      token: `Bearer ${process.env.VITE_3CX_TOKEN}`
+      token: `Bearer ${process.env.NEXT_3CX_TOKEN}`
     }));
   };
 

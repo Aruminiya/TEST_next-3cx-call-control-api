@@ -41,11 +41,11 @@ export default async function makeSipCall() {
 
   // 發起 3CX 呼叫
   function make3CXCall() {
-    fetch(`${process.env.VITE_3CX_HOST}/callcontrol/leo/makecall`, {
+    fetch(`${process.env.NEXT_3CX_HOST}/callcontrol/leo/makecall`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
-        'Authorization': `Bearer ${process.env.VITE_3CX_TOKEN}`, //token
+        'Authorization': `Bearer ${process.env.NEXT_3CX_TOKEN}`, //token
       },
       body: JSON.stringify({
         reason: 'Test Call',

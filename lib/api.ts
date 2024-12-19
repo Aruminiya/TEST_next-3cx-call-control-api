@@ -1,12 +1,15 @@
 'use server'
 
+import token_3cx from '../utils/getToken';
+
 export const makeCall = async (dnnumber: string, destination: string) => {
   try {
-    const response = await fetch(`${process.env.VITE_3CX_HOST}/callcontrol/${dnnumber}/makecall`, {
+    const token = await token_3cx();
+    const response = await fetch(`${process.env.NEXT_3CX_HOST}/callcontrol/${dnnumber}/makecall`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
-        'Authorization': `Bearer ${process.env.VITE_3CX_TOKEN}`
+        'Authorization': `Bearer ${token}`
       },
       body: JSON.stringify({
         reason: 'Initiating call',
@@ -31,13 +34,13 @@ export const makeCall = async (dnnumber: string, destination: string) => {
 
 export const sendAudioStream = async (dnnumber: string, participantId: string, audioBlob: Blob) => {
   try {
-    
+    const token = await token_3cx();
     const myHeaders = new Headers();
     myHeaders.append("Content-Type", "application/octet-stream");
-    myHeaders.append("Authorization", `Bearer ${process.env.VITE_3CX_TOKEN}`);
+    myHeaders.append("Authorization", `Bearer ${token}`);
 
     console.log('Sending audio stream:', audioBlob);
-    const response = await fetch(`${process.env.VITE_3CX_HOST}/callcontrol/${dnnumber}/participants/${participantId}/stream`, {
+    const response = await fetch(`${process.env.NEXT_3CX_HOST}/callcontrol/${dnnumber}/participants/${participantId}/stream`, {
       method: "POST",
       headers: myHeaders,
       body: audioBlob,
@@ -57,11 +60,12 @@ export const sendAudioStream = async (dnnumber: string, participantId: string, a
 
 export const makeCallWithDeviceId = async (dnnumber: string, destination: string, deviceId: string) => {
   try {
-    const response = await fetch(`${process.env.VITE_3CX_HOST}/callcontrol/${dnnumber}/devices/${deviceId}/makecall`, {
+    const token = await token_3cx();
+    const response = await fetch(`${process.env.NEXT_3CX_HOST}/callcontrol/${dnnumber}/devices/${deviceId}/makecall`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
-        'Authorization': `Bearer ${process.env.VITE_3CX_TOKEN}`
+        'Authorization': `Bearer ${token}`
       },
       body: JSON.stringify({
         reason: 'Initiating call',

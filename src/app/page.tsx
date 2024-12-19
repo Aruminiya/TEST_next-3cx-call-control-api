@@ -8,7 +8,9 @@ import SendAudioStream from "../../components/SendAudioStream";
 import MainInputData from "../../components/MainInputData";
 import MakeCallWithSip from '../../components/MakeCallWithSip';
 import MakeCallWithDeviceId from '../../components/MakeCallWithDeviceId';
+import token_3cx from '../../utils/getToken';
 export default function App() {
+  token_3cx();
   return (
     <Provider store={store}>
       <MainInputData />
